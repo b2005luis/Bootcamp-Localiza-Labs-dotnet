@@ -17,6 +17,10 @@ namespace tempo_do_evento
             minutoMomentoInicio = Convert.ToInt32(dadosMomentoInicio[1]);
             segundoMomentoInicio = Convert.ToInt32(dadosMomentoInicio[2]);
 
+            DateTime dataInicio = new DateTime(
+                DateTime.Now.Year, DateTime.Now.Month, diaInicio,
+                horaMomentoInicio, minutoMomentoInicio, segundoMomentoInicio);
+
             string[] dadosTermino = Console.ReadLine().Split();
             diaTermino = Convert.ToInt32(dadosTermino[1]);
 
@@ -25,19 +29,17 @@ namespace tempo_do_evento
             minutoMomentoTermino = Convert.ToInt32(dadosMomentoTermino[1]);
             segundoMomentoTerminio = Convert.ToInt32(dadosMomentoTermino[2]);
 
-            int dsDia = (diaTermino - diaInicio) * 60 * 60;
-            int dsMinuto = (minutoMomentoTermino - minutoMomentoInicio) * 60 * 60;
-            int dsSegyndo = segundoMomentoTerminio - segundoMomentoInicio;
+            DateTime dataFim = new DateTime(
+                DateTime.Now.Year, DateTime.Now.Month, diaTermino,
+                horaMomentoTermino, minutoMomentoTermino, segundoMomentoTerminio);
 
-            int transformaSegundosInicio = ((60 * 60 * horaMomentoInicio) + (60 * minutoMomentoInicio) + segundoMomentoInicio);
-            int transformaSegundosTermino = ((60 * 60 * horaMomentoTermino) + (60 * minutoMomentoTermino) + segundoMomentoTerminio);
-
-            int somaTotalSegundos = (transformaSegundosInicio + transformaSegundosTermino);
-
-            int W = diaTermino - diaInicio; // Dias
-            int X = somaTotalSegundos / ((60 * 60) * 24); // Horas
-            int Y = somaTotalSegundos / (60 * 60); // Minutos
-            int Z = somaTotalSegundos / 60; // Sefundos
+            int W = (int)(dataFim - dataInicio).TotalDays; // Dias
+            dataFim = dataFim.AddDays(-W);
+            int X = (int)(dataFim - dataInicio).TotalHours; // Horas
+            dataFim = dataFim.AddHours(-X);
+            int Y = (int)(dataFim - dataInicio).TotalMinutes; // Minutos
+            dataFim = dataFim.AddMinutes(-Y);
+            int Z = (int)(dataFim - dataInicio).TotalSeconds; // Segundos
 
             Console.WriteLine("{0} dia(s)", W);
             Console.WriteLine("{0} hora(s)", X);
