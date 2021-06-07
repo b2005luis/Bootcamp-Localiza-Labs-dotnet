@@ -51,6 +51,9 @@ namespace cadastrando_series
                 case "4":
                     RemoverSerie();
                     break;
+                case "5":
+                    VisualizarSerie();
+                    break;
                 case "0":
                     Console.Clear();
                     break;
@@ -63,12 +66,31 @@ namespace cadastrando_series
             }
         }
 
+        private static void VisualizarSerie()
+        {
+            Serie Serie = new Serie();
+            Console.WriteLine("\nALTERAR DE SÉRIE");
+            Console.Write("Id da Série para visualizar: ");
+            int Id = int.Parse(Console.ReadLine());
+
+            Serie = Repositorio.BuscaPorId(Id);
+
+            if (!Serie.Excluido)
+            {
+                Serie.ToString();
+            }
+            else
+            {
+                MsgSerieNaoEncontrada(Id);
+            }
+        }
+
         private static void RemoverSerie()
         {
             Serie Serie = new Serie();
             Console.WriteLine("\nALTERAR DE SÉRIE");
             Console.Write("Id da Série para alterar: ");
-            int Id = Convert.ToInt16(Console.ReadLine());
+            int Id = int.Parse(Console.ReadLine());
 
             Serie = Repositorio.BuscaPorId(Id);
             if (!Serie.Excluido)
@@ -77,9 +99,7 @@ namespace cadastrando_series
             }
             else
             {
-                ColorirConsole(ConsoleColor.DarkRed);
-                Console.WriteLine("\nA Seérie com Id {0} não foi encontrada.\n", Id);
-                ColorirConsole(ConsoleColor.Black);
+                MsgSerieNaoEncontrada(Id);
             }
         }
 
@@ -88,7 +108,7 @@ namespace cadastrando_series
             Serie Serie = new Serie();
             Console.WriteLine("\nALTERAR DE SÉRIE");
             Console.Write("Id da Série para alterar: ");
-            int Id = Convert.ToInt16(Console.ReadLine());
+            int Id = int.Parse(Console.ReadLine());
 
             Serie = Repositorio.BuscaPorId(Id);
 
@@ -107,15 +127,13 @@ namespace cadastrando_series
                 Console.Write("\nQual é o Genero? De {0} Para: ", Enum.GetName(Serie.Genero));
                 Serie.Genero = Enum.Parse<Genero>(Console.ReadLine());
                 Console.Write("Ano de Lançamento: De {0} Para: ", Serie.Ano);
-                Serie.Ano = Convert.ToInt16(Console.ReadLine());
+                Serie.Ano = int.Parse(Console.ReadLine());
 
                 Repositorio.Alterar(Id, Serie);
             }
             else
             {
-                ColorirConsole(ConsoleColor.DarkRed);
-                Console.WriteLine("\nA Seérie com Id {0} não foi encontrada.\n", Id);
-                ColorirConsole(ConsoleColor.Black);
+                MsgSerieNaoEncontrada(Id);
             }
         }
 
@@ -140,7 +158,7 @@ namespace cadastrando_series
             Serie.Genero = Enum.Parse<Genero>(Console.ReadLine());
 
             Console.Write("Ano de Lançamento: ");
-            Serie.Ano = Convert.ToInt16(Console.ReadLine());
+            Serie.Ano = int.Parse(Console.ReadLine());
 
             Repositorio.Cadastrar(Serie);
         }
@@ -156,6 +174,14 @@ namespace cadastrando_series
         public static void ColorirConsole(ConsoleColor Color)
         {
             Console.ForegroundColor = Color;
+        }
+
+        public static void MsgSerieNaoEncontrada(int Id)
+        {
+            ColorirConsole(ConsoleColor.DarkRed);
+            Console.WriteLine("\nA Seérie com Id {0} não foi encontrada.\n", Id);
+            ColorirConsole(ConsoleColor.Black);
+
         }
     }
 }

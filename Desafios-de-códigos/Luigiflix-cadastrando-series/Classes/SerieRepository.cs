@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace cadastrando_series
@@ -22,11 +23,15 @@ namespace cadastrando_series
         public Serie BuscaPorId(int Id)
         {
             Serie Serie = new Serie();
+            Serie.Id = Id;
             Serie.Excluido = true;
 
-            if (Id <= this.Series.Count && this.Series[Id] != null)
+            foreach (Serie Temporary in this.Series)
             {
-                Serie = this.Series[Id];
+                if (Temporary.Id == Serie.Id)
+                {
+                    Serie = Temporary;
+                }
             }
 
             return Serie;
